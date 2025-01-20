@@ -17,7 +17,7 @@ FROM TRANSACTIONS
 WHERE ACCOUNT_ID IN (
     SELECT ACCOUNT_ID
     FROM ACCOUNTS
-    WHERE CUSTOMER_ID = 1);
+    WHERE CUSTOMER_ID = 100);
     
 --3. 각 고객이 보유한 계좌 중 가장 높은 잔액을 가진 계좌를 조회
 SELECT *
