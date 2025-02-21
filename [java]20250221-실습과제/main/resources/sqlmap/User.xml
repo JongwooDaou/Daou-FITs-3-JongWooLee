@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE mapper 
+        PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" 
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="User">
+    <resultMap id="UserResultMap" type="User">
+        <result column="created_at" property="createdAt"/>
+    </resultMap>
+    <!-- CDATA 는 SQL query 내부의 특수문자(<>)가 tag로 인식되지 않도록 처리 -->
+
+    <select id="selectUserById"
+            parameterType="Integer"
+            resultType="User"
+            resultMap="UserResultMap"
+    >
+    <![CDATA[
+        SELECT ID, USERNAME, PASSWORD, NAME
+        FROM USERS
+        WHERE ID = #{id}
+        ]]>
+    </select>
+
+    <select id="selectUserByUsername"
+            parameterType="String"
+            resultType="User"
+            resultMap="UserResultMap"
+    >
+    <![CDATA[
+        SELECT ID, USERNAME, PASSWORD, NAME
+        FROM USERS
+        WHERE USERNAME = #{s}
+        ]]>
+    </select>
+</mapper>

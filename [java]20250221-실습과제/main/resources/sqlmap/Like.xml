@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="Like">
+    <resultMap id="LikeResultMap" type="Like">
+        <result column="user_id" property="userId"/>
+        <result column="board_id" property="boardId"/>
+    </resultMap>
+    <!-- CDATA 는 SQL query 내부의 특수문자(<>)가 tag로 인식되지 않도록 처리 -->
+
+    <select id="selectLikeByLike"
+            parameterType="Like"
+            resultType="Like"
+            resultMap="LikeResultMap"
+    >
+    <![CDATA[
+        SELECT user_id, board_id
+        FROM LIKES
+        WHERE user_id = #{userId} AND board_id = #{boardId}
+        ]]>
+    </select>
+
+    <select id="countLikeByBoardId"
+            parameterType="Long"
+            resultType="Integer"
+    >
+    <![CDATA[
+        select Count(*)
+        FROM LIKES
+        WHERE board_id = #{boardId}
+        ]]>
+    </select>
+
+    <insert id="insertLikeByLike"
+            parameterType="Like"
+    >
+    <![CDATA[
+        insert into LIKES (user_id, board_id)
+        values (#{userId}, #{boardId})
+        ]]>
+    </insert>
+
+    <delete id="deleteLikeByLike"
+            parameterType="Like"
+    >
+    <![CDATA[
+        DELETE
+        FROM LIKES
+        WHERE user_id = #{userId} AND board_id = #{boardId}
+        ]]>
+    </delete>
+
+</mapper>

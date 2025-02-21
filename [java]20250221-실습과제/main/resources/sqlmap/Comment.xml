@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="Comment">
+    <resultMap id="CommentResultMap" type="Comment">
+        <result column="user_id" property="userId"/>
+        <result column="board_id" property="boardId"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="deleted_at" property="deletedAt"/>
+    </resultMap>
+    <!-- CDATA 는 SQL query 내부의 특수문자(<>)가 tag로 인식되지 않도록 처리 -->
+
+    <select id="selectAllCommentByBoardId"
+            parameterType="Long"
+            resultType="Comment"
+            resultMap="CommentResultMap"
+    >
+        <![CDATA[
+        SELECT id,
+               content,
+               user_id,
+               board_id,
+               created_at,
+               deleted_at
+        FROM COMMENTS
+        WHERE board_id = #{boardId}
+        ]]>
+    </select>
+    <delete id="deleteCommentById"
+            parameterType="Long"
+    >
+        <![CDATA[
+        DELETE
+        FROM COMMENTS
+        WHERE id = #{id}
+        ]]>
+    </delete>
+
+    <select id="selectAllComment"
+            resultType="Comment"
+            resultMap="CommentResultMap"
+    >
+        <![CDATA[
+        SELECT id,
+               content,
+               user_id,
+               board_id,
+               created_at,
+               deleted_at
+        FROM COMMENTS
+        ]]>
+    </select>
+    <insert id="insertComment"
+            parameterType="Comment"
+    >
+        <![CDATA[
+        INSERT INTO COMMENTS (content, user_id, board_id)
+        VALUES (#{content}, #{userId}, #{boardId})
+        ]]>
+    </insert>
+
+</mapper>

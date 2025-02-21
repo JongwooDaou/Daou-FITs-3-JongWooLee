@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="Board">
+    <!-- CDATA 는 SQL query 내부의 특수문자(<>)가 tag로 인식되지 않도록 처리 -->
+    <resultMap id="BoardResultMap" type="Board">
+        <result column="user_id" property="userId"/>
+        <result column="like_cnt" property="likeCnt"/>
+        <result column="comment_cnt" property="commentCnt"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+        <result column="deleted_at" property="deletedAt"/>
+    </resultMap>
+
+
+    <select id="selectAllBoard"
+            resultType="Board"
+            resultMap="BoardResultMap"
+    >
+        <![CDATA[
+        SELECT id,
+               title,
+               content,
+               user_id,
+               like_cnt,
+               comment_cnt,
+               created_at,
+               updated_at,
+               deleted_at
+        FROM BOARDS
+        ]]>
+    </select>
+
+    <select id="selectBoardByKeyword"
+            parameterType="String"
+            resultType="Board"
+            resultMap="BoardResultMap"
+    >
+        <![CDATA[
+        SELECT id,
+               title,
+               content,
+               user_id,
+               like_cnt,
+               comment_cnt,
+               created_at,
+               updated_at,
+               deleted_at
+        FROM BOARDS
+        WHERE title LIKE '%' || #{keyword} || '%'
+        ]]>
+    </select>
+
+    <select id="selectBoardById"
+            parameterType="Integer"
+            resultType="Board"
+            resultMap="BoardResultMap"
+    >
+        <![CDATA[
+        SELECT id,
+               title,
+               content,
+               user_id,
+               like_cnt,
+               comment_cnt,
+               created_at,
+               updated_at,
+               deleted_at
+        FROM BOARDS
+        WHERE id = #{i}
+        ]]>
+    </select>
+
+    <delete id="deleteBoardById"
+            parameterType="Integer"
+    >
+        <![CDATA[
+        DELETE
+        FROM boards
+        WHERE id = #{i}
+        ]]>
+    </delete>
+    <insert id="insertBoard"
+            parameterType="Board">
+        <![CDATA[
+        INSERT INTO boards (title, user_id, content, like_cnt, comment_cnt)
+        VALUES (#{title}, #{userId}, #{content}, 0, 0)
+        ]]>
+    </insert>
+    <update id="updateBoardById"
+            parameterType="Board">
+        <![CDATA[
+        UPDATE boards
+        SET content = #{content}, updated_at = SYSDATE
+        WHERE id = #{id}
+        ]]>
+    </update>
+
+
+</mapper>
