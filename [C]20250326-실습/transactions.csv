@@ -1,0 +1,4 @@
+id,customer,stock,type,quantity,price
+14,kim,kia,S,1,20000.00
+15,lee,samsung,B,10,20000.00
+11,kim,sung,S,3,1000.00
